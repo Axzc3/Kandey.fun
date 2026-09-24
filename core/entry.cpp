@@ -53,7 +53,7 @@ void MainThread(HMODULE hModule) {
                     uintptr_t localPlayerPawn = *(uintptr_t*)(clientDll + cs2_dumper::offsets::client_dll::dwLocalPlayerPawn);
                     
                     if (entityList && localPlayerPawn) {
-                        int localTeam = *(int*)(localPlayerPawn + 0x3E3);
+                        int localTeam = *(int*)(localPlayerPawn + 0x3E7);
                         
                         // Scan through entity indices
                         for (int i = 0; i < 64; i++) {
@@ -63,9 +63,9 @@ void MainThread(HMODULE hModule) {
                             uintptr_t entity = *(uintptr_t*)(listEntry + 120 * (i & 0x1FF));
                             if (!entity || entity == localPlayerPawn) continue;
                             
-                            int health = *(int*)(entity + 0x344);
+                            int health = *(int*)(entity + 0x34C);
                             if (health > 0 && health <= 100) {
-                                int team = *(int*)(entity + 0x3E3);
+                                int team = *(int*)(entity + 0x3E7);
                                 if (team != localTeam && team > 0) {
                                     validPlayerCount++;
                                 }

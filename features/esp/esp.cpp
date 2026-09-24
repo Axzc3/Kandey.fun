@@ -85,7 +85,7 @@ namespace esp {
             return;
 
         // Get local team
-        int localTeam = Read<int>(localPlayerPawn + 0x3E3); // m_iTeamNum offset
+        int localTeam = Read<int>(localPlayerPawn + 0x3E7); // m_iTeamNum
 
         int validPlayers = 0;
 
@@ -100,19 +100,19 @@ namespace esp {
                 continue;
 
             // Check health
-            int health = Read<int>(entity + 0x344); // m_iHealth
+            int health = Read<int>(entity + 0x34C); // m_iHealth
             if (health <= 0 || health > 100)
                 continue;
 
             // Check team
-            int team = Read<int>(entity + 0x3E3); // m_iTeamNum
+            int team = Read<int>(entity + 0x3E7); // m_iTeamNum
             if (team == localTeam)
                 continue; // Skip teammates
 
             validPlayers++;
 
             // Get game scene node for position
-            uintptr_t gameSceneNode = Read<uintptr_t>(entity + 0x318); // m_pGameSceneNode
+            uintptr_t gameSceneNode = Read<uintptr_t>(entity + 0x330); // m_pGameSceneNode
             if (!gameSceneNode)
                 continue;
 
