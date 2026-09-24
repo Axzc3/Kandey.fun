@@ -1,0 +1,24 @@
+// Generated using https://github.com/a2x/cs2-dumper
+// 2026-09-24 15:49:33.414085800 UTC
+
+namespace CS2Dumper {
+    // Module: client.dll
+    public static class Buttons {
+        public const nint attack = 0x222C040;
+        public const nint attack2 = 0x222C0D0;
+        public const nint back = 0x222C310;
+        public const nint duck = 0x222C5E0;
+        public const nint forward = 0x222C280;
+        public const nint jump = 0x222C550;
+        public const nint left = 0x222C3A0;
+        public const nint lookatweapon = 0x25719B0;
+        public const nint reload = 0x222BFB0;
+        public const nint right = 0x222C430;
+        public const nint showscores = 0x2571890;
+        public const nint sprint = 0x222BF20;
+        public const nint turnleft = 0x222C160;
+        public const nint turnright = 0x222C1F0;
+        public const nint use = 0x222C4C0;
+        public const nint zoom = 0x2571920;
+    }
+}
