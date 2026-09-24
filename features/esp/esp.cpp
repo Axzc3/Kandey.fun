@@ -1,5 +1,6 @@
 #include "esp.h"
 #include "../../core/sdk/cpp/offsets.hpp"
+#include "imgui.h"
 #include <d3d11.h>
 #include <Windows.h>
 
