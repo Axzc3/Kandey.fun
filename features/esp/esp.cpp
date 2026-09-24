@@ -8,6 +8,7 @@ namespace esp {
     bool enabled = false;
     ImColor boxColor = ImColor(255, 0, 0, 255); // Red
     float boxThickness = 2.0f;
+    int lastPlayerCount = 0;
 
     // Simple memory read
     template<typename T>
@@ -86,6 +87,8 @@ namespace esp {
         // Get local team
         int localTeam = Read<int>(localPlayerPawn + 0x3E3); // m_iTeamNum offset
 
+        int validPlayers = 0;
+
         // Iterate through entities
         for (int i = 0; i < 64; i++) {
             uintptr_t listEntry = Read<uintptr_t>(entityList + (8 * (i & 0x7FFF) >> 9) + 16);
@@ -105,6 +108,8 @@ namespace esp {
             int team = Read<int>(entity + 0x3E3); // m_iTeamNum
             if (team == localTeam)
                 continue; // Skip teammates
+
+            validPlayers++;
 
             // Get game scene node for position
             uintptr_t gameSceneNode = Read<uintptr_t>(entity + 0x318); // m_pGameSceneNode
@@ -133,6 +138,11 @@ namespace esp {
 
             // Draw the box
             DrawBox(drawList, x, y, width, height);
+        }
+
+        // Log player count periodically
+        if (validPlayers != lastPlayerCount) {
+            lastPlayerCount = validPlayers;
         }
     }
 

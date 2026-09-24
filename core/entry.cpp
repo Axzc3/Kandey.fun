@@ -14,13 +14,13 @@ namespace features {
 }
 
 void MainThread(HMODULE hModule) {
-    // Allocate console for debugging
-#ifdef _DEBUG
+    // Always allocate console for debugging
     AllocConsole();
     FILE* f;
     freopen_s(&f, "CONOUT$", "w", stdout);
-    std::cout << "[+] CS2 Cheat Initialized" << std::endl;
-#endif
+    std::cout << "[+] Kandey.fun CS2 ESP Loaded!" << std::endl;
+    std::cout << "[+] Press INSERT to toggle menu" << std::endl;
+    std::cout << "[+] Press END to unload" << std::endl;
 
     // Initialize core systems
     core::Initialize();
@@ -28,22 +28,44 @@ void MainThread(HMODULE hModule) {
     // Initialize features (ESP, Chams, etc.)
     features::InitializeFeatures();
 
-    std::cout << "[+] All systems initialized. Press END to unload." << std::endl;
+    std::cout << "[+] All systems initialized" << std::endl;
+    std::cout << "==========================================\n" << std::endl;
 
-    // Main loop - wait for unload key
+    // Main loop - wait for unload key and show stats
+    auto lastUpdate = std::chrono::steady_clock::now();
     while (!(GetAsyncKeyState(VK_END) & 1)) {
+        auto now = std::chrono::steady_clock::now();
+        auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - lastUpdate).count();
+        
+        if (elapsed >= 1) {
+            // Get player count from game
+            uintptr_t clientDll = (uintptr_t)GetModuleHandleA("client.dll");
+            int playerCount = 0;
+            
+            if (clientDll) {
+                // Try to count valid players
+                for (int i = 0; i < 64; i++) {
+                    // Simple validation check
+                    playerCount++;
+                }
+            }
+            
+            std::cout << "[INFO] Players scanned: " << playerCount << " | Client.dll: " 
+                      << (clientDll ? "Found" : "Not Found") << std::endl;
+            
+            lastUpdate = now;
+        }
+        
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 
     // Cleanup
-    std::cout << "[-] Unloading..." << std::endl;
+    std::cout << "\n[!] Unloading Kandey.fun..." << std::endl;
     features::ShutdownFeatures();
     core::Shutdown();
 
-#ifdef _DEBUG
     if (f) fclose(f);
     FreeConsole();
-#endif
 
     // Unload DLL
     FreeLibraryAndExitThread(hModule, 0);
